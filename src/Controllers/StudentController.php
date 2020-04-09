@@ -45,7 +45,7 @@ class StudentController{
 		foreach($grades as $grade){
 			$grade = Grade::create(['value' => $grade, 'student_id' => $student->id]);
 		}
-		echo json_encode($student->with('grades'));
+		echo json_encode($student);
 	}
 
 }
