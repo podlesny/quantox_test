@@ -1,5 +1,5 @@
 # quantox_test
-Test taask for quantox
+Test task for quantox
 
 API for system that is responsible for the managing the grades for a list of students
 
