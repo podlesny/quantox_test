@@ -1,8 +1,8 @@
 <?php
 
-require 'bootstrap.php';
+require_once 'bootstrap.php';
 
-require 'constants.php';
+require_once 'constants.php';
 
 $routes = [
 	['GET', '/students[/]', ['StudentController', 'getAll']],

@@ -15,3 +15,7 @@ function getContentTypeHeader($board){
 		}
 	}
 }
+
+function getBoardType($params){
+	return array_key_exists('board', $params) ? $params['board'] : _CSM;
+}
