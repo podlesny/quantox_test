@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__."/../Helpers/helpers.php";
+
 class StudentController{
 
 	public static function getAll(){
@@ -7,36 +9,35 @@ class StudentController{
 		echo $students;
 	}
 
-	public static function getContentTypeHeader($board){
-		switch($board){
-			case _CSMB:{
-				return 'Content-Type: text/xml';
-			}
-			break;
-			case _CSM:{
-				return 'Content-Type: application/json';
-			}
-			break;
-			default :{
-				return 'Content-Type: text/plain';
-			}
-		}
-	}
-
-	public static function get($params) {
+	public static function validate($params){
 		$id = $params['id'];
 		$board = array_key_exists('board', $params) ? $params['board'] : _CSM;
 		if($board !== _CSM && $board !== _CSMB){
-			echo json_encode(['error_code' => 422, 'error_message' => 'Wrong board parameter']);
-			return;
+			$result = ['status' => 'error', 'error_code' => 422, 'error_message' => 'Wrong board parameter'];
 		}
 		$student = Student::find($id);
 		if(!$student){
-			echo json_encode(['error_code' => 422, 'error_message' => 'No student with given id']);
+			$result = ['status' => 'error', 'error_code' => 422, 'error_message' => 'No student with given id'];
+		}
+		else{
+			$result = ['status' => 'ok', 'data' => [
+				'student' => $student,
+				'board' => $board
+			]];
+		}
+		return $result;
+	}
+
+	public static function get($params) {
+		$result = static::validate($params);
+		if($result['status'] == 'error'){
+			echo json_encode($result);
 			return;
 		}
-		header(static::getContentTypeHeader($board));
-		echo $student->formattedDataWithBoard($board);
+		['student' => $student, 'board' => $board] = $result['data'];
+		$formatter = FormatterFactory::make($board);
+		header(getContentTypeHeader($board));
+		echo $student->formattedDataWithBoard($formatter);
 	}
 
 	public static function create($params){
