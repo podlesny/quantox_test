@@ -5,9 +5,9 @@ require 'bootstrap.php';
 require './src/Controllers/StudentController.php';
 
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    $r->addRoute('GET', '/students', ['StudentController', 'getAll']);
-	$r->addRoute('GET', '/students/{id:\d+}', ['StudentController', 'get']);
-	$r->addRoute('POST', '/students', ['StudentController', 'create']);
+    $r->get('/students', ['StudentController', 'getAll']);
+	$r->get('/students/{id:\d+}', ['StudentController', 'get']);
+	$r->post('/students', ['StudentController', 'create']);
 });
 
 $httpMethod = $_SERVER['REQUEST_METHOD'];
@@ -30,7 +30,7 @@ switch ($routeInfo[0]) {
     break;
     case FastRoute\Dispatcher::FOUND:{
 		$handler = $routeInfo[1];
-		$params = $routeInfo[2];
+		$params = array_merge($routeInfo[2], $_GET);
 		$handler($params);
 	}
     break;
