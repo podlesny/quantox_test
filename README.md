@@ -14,12 +14,12 @@ Installation
 Methods
 
 
-GET http://quantox_test.test/students
+<pre>GET http://quantox_test.test/students</pre>
 
 Gets list of all students with their grades
 
 
-POST http://quantox_test.test/students
+<pre>POST http://quantox_test.test/students</pre>
 
 Creates a student
 
@@ -30,7 +30,7 @@ name - Student's name
 grades[] - Student's grades
 
 
-GET http://quantox_test.test/students/{id}
+<pre>GET http://quantox_test.test/students/{id}</pre>
 
 Gets student with given id and his result in given board
 
